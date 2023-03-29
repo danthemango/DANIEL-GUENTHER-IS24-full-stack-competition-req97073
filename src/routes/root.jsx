@@ -1,5 +1,5 @@
-
 import { getContacts, createContact } from '../contacts';
+import {NavLink,Outlet} from 'react-router-dom';
 
 export async function action() {
     const contact = await createContact();
@@ -37,12 +37,13 @@ import {
   Input
 } from '@chakra-ui/react';
 import {
-  FiSearch,
+  // FiSearch,
+  // FiStar,
+  // FiSettings,
+  FiSmile,
   FiHome,
   FiUsers,
   FiBriefcase,
-  FiStar,
-  FiSettings,
   FiMenu,
   FiBell,
   FiChevronDown,
@@ -50,17 +51,15 @@ import {
 import { ReactText } from 'react';
 
 const LinkItems = [
-  { name: 'Dashboard', icon: FiHome },
-  { name: 'Projects', icon: FiBriefcase },
-  { name: 'Team', icon: FiUsers },
+  { name: 'Dashboard', icon: FiHome, href: "/" },
+  { name: 'Projects', icon: FiBriefcase, href: "project"},
+  { name: 'Team', icon: FiUsers, href: "#" },
 ];
 
-export default function SidebarWithHeader({
-  children,
-}) {
+export default function SidebarWithHeader({ children }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
-    <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>
+    <Box minH="100vh">
       <SidebarContent
         onClose={() => onClose}
         display={{ base: 'none', md: 'block' }}
@@ -80,7 +79,7 @@ export default function SidebarWithHeader({
       {/* mobilenav */}
       <MobileNav onOpen={onOpen} />
       <Box ml={{ base: 0, md: 60 }} p="4">
-        {children}
+        <Outlet />
       </Box>
     </Box>
   );
@@ -104,7 +103,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
-        <NavItem key={link.name} icon={link.icon}>
+        <NavItem key={link.name} icon={link.icon} href={link.href}>
           {link.name}
         </NavItem>
       ))}
@@ -112,9 +111,9 @@ const SidebarContent = ({ onClose, ...rest }) => {
   );
 };
 
-const NavItem = ({ icon, children, ...rest }) => {
+const NavItem = ({ icon, children, href, ...rest }) => {
   return (
-    <Link href="#" style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
+    <Link href={href} style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
       <Flex
         align="center"
         p="4"

@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import Root, {
+import SidebarWithHeader, {
   loader as rootLoader,
   action as rootAction
 } from './routes/root';
@@ -11,6 +11,8 @@ import ErrorPage from './error-page';
 import Contact, { loader as contactLoader, action as contactAction } from './routes/contact';
 import EditContact, {action as editAction} from './routes/edit';
 import Index from './routes/index';
+import ProjectTablePage from './routes/project/list';
+
 import {
   createBrowserRouter,
   RouterProvider,
@@ -19,7 +21,7 @@ import {
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Root />,
+    element: <SidebarWithHeader />,
     errorElement: <ErrorPage />,
     loader: rootLoader,
     action: rootAction,
@@ -32,6 +34,22 @@ const router = createBrowserRouter([
             index: true,
             element: <Index />
           },
+          {
+            path: "project",
+            element: <ProjectTablePage />
+          },
+          // {
+          //   path: "project/:projectId",
+          //   element: <Project />
+          // },
+          // {
+          //   path: "project/:projectId/edit",
+          //   element: <ProjectEdit />
+          // },
+          // {
+          //   path: "project/:projectId/delete",
+          //   element: <ProjectDelete />
+          // },
           {
             path: "contacts/:contactId",
             element: <Contact />,
