@@ -33,9 +33,11 @@ const products = [
     }
 ]
 
-// creates a simple arrow if direction is 'up' or 'down'
+// 
+/**
+ * a simple arrow if direction is 'up' or 'down'
+ */
 function SortIcon({direction}) {
-    // <span> {direction && ArrowDownIcon} </span>
     if(direction == 'up') {
         return <ArrowUpIcon />
     } else if(direction == 'down') {
@@ -45,32 +47,48 @@ function SortIcon({direction}) {
     }
 }
 
-function ProjectTable() {
-    const [sort, setSort] = useState({});
+/**
+ * sortable table header
+ */
+function ThSortable({children, isSorted, onClick, direction}) {
+    return <Th onClick={onClick}>{children} {isSorted && <SortIcon direction={direction}/>}</Th>
+}
 
-    // sorts the array
-    function sortBy(id) {
-        if(!sort[id] || sort[id] == 'up') {
-            sort[id] = 'down';
-        } else {
-            sort[id] = 'up';
-        }
-        setSort(sort);
+function ProjectTable() {
+    const [direction, setDirection] = useState('');
+    const [sortBy, setSortBy] = useState('productName');
+    function sortColumn(key) {
+        setDirection(direction == 'down' ? 'up' : 'down');
+        setSortBy(key);
+        console.log('sorting column ...') //
     }
+
+    const headings = [
+        { label: 'Product ID', key: 'productId' },
+        { label: 'Product Name', key: 'productName' },
+        { label: 'Product Owner', key: 'productOwnerName' },
+        { label: 'Developers', key: 'Developers' },
+        { label: 'Scrum Master', key: 'scrumMasterName' },
+        { label: 'Start Date', key: 'startDate' },
+        { label: 'Methodology', key: 'methodology' },
+    ];
 
     return (
         <TableContainer>
             <Table>
                 <Thead style={{userSelect: 'none'}}>
                 <Tr>
-                    <Th>{Object.keys(sort)}</Th>
-                    <Th onClick={e => sortBy('productId')}>Product ID <SortIcon direction={sort.productId}/></Th>
-                    <Th>Product Name</Th>
-                    <Th>Product Owner</Th>
-                    <Th>Developers</Th>
-                    <Th>Scrum Master</Th>
-                    <Th>Start Date</Th>
-                    <Th>Methodology</Th>
+                    {headings.map(heading => {
+                        return (
+                            <ThSortable
+                                key={heading.key}
+                                onClick={() => sortColumn(heading.key)}
+                                direction={direction}
+                                isSorted={sortBy == heading.key}>
+                                    {heading.label}
+                            </ThSortable>
+                        )
+                    })}
                 </Tr>
                 </Thead>
                 <Tbody>
