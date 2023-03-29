@@ -11,7 +11,7 @@ import ErrorPage from './error-page';
 import Contact, { loader as contactLoader, action as contactAction } from './routes/contact';
 import EditContact, {action as editAction} from './routes/edit';
 import Index from './routes/index';
-import ProjectTablePage from './routes/project/list';
+import ProductsTablePage, { loader as productsLoader } from './routes/products/list';
 
 import {
   createBrowserRouter,
@@ -36,7 +36,8 @@ const router = createBrowserRouter([
           },
           {
             path: "project",
-            element: <ProjectTablePage />
+            element: <ProductsTablePage />,
+            loader: productsLoader,
           },
           // {
           //   path: "project/:projectId",

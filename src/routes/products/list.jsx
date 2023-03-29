@@ -8,32 +8,33 @@ import {
     TableContainer,
 } from '@chakra-ui/react';
 
-import { useState } from 'react';
+import {
+    getProducts
+} from '../../products';
+import { useState} from 'react';
+import { useLoaderData } from "react-router-dom";
 
 import { ArrowUpIcon, ArrowDownIcon } from '@chakra-ui/icons'
 
-const products = [
-    {
-        productId: "5",
-        productName: "Elephant",
-        productOwnerName: "Johnny Rogers",
-        Developers: "Frank, Phil, Eric",
-        scrumMasterName: "Frank",
-        startDate: "2016-07-09",
-        methodology: "Agile",
-    },
-    {
-        productId: "6",
-        productName: "Franky's Nest",
-        productOwnerName: "Elvis Presley",
-        Developers: "George, Franklyn, Rogers",
-        scrumMasterName: "Rogers",
-        startDate: "2019-08-12",
-        methodology: "Waterfall",
-    }
-]
+// export async function action({request, params}) {
+//     let formData = await request.formData();
+//     return updateContact(params.contactId, {
+//         favorite: formData.get("favorite") == "true",
+//     });
+// }
 
-// 
+export async function loader({params}) {
+    const products = await getProducts();
+    // if(!product) {
+    //     throw new Response("", {
+    //         status: 404,
+    //         statusText: "Not Found",
+    //     });
+    // }
+    return { products };
+}
+
+
 /**
  * a simple arrow if direction is 'up' or 'down'
  */
@@ -48,13 +49,15 @@ function SortIcon({direction}) {
 }
 
 /**
- * sortable table header
+ * table header which shows an arrow if it is sorted
  */
 function ThSortable({children, isSorted, onClick, direction}) {
     return <Th onClick={onClick}>{children} {isSorted && <SortIcon direction={direction}/>}</Th>
 }
 
-function ProjectTable() {
+export default function ProductsTablePage() {
+    const {products} = useLoaderData();
+
     const [direction, setDirection] = useState('');
     const [sortBy, setSortBy] = useState('productName');
     function sortColumn(key) {
@@ -98,9 +101,9 @@ function ProjectTable() {
                                 <Td>{product.productId}</Td>
                                 <Td>{product.productName}</Td>
                                 <Td>{product.productOwnerName}</Td>
-                                <Td>{product.Developers}</Td>
+                                <Td>{product.developers}</Td>
                                 <Td>{product.scrumMasterName}</Td>
-                                <Td>{product.starTd}</Td>
+                                <Td>{product.startDate}</Td>
                                 <Td>{product.methodology}</Td>
                             </Tr>
                         ))
@@ -108,13 +111,5 @@ function ProjectTable() {
                 </Tbody>
             </Table>
         </TableContainer>
-    )
-}
-
-export default function ProjectTablePage() {
-    return (
-        <>
-            <ProjectTable />
-        </>
     )
 }
