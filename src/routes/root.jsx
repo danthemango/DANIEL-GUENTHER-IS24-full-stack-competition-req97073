@@ -103,9 +103,6 @@ const SidebarContent = ({ onClose, ...rest }) => {
         </Text>
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
-        <SearchItem icon={FiSearch}>
-          <Input placeholder="Search" />
-        </SearchItem>
       {LinkItems.map((link) => (
         <NavItem key={link.name} icon={link.icon}>
           {link.name}
@@ -114,27 +111,6 @@ const SidebarContent = ({ onClose, ...rest }) => {
     </Box>
   );
 };
-
-const SearchItem = ({ icon, children, ...rest }) => {
-  return (
-      <Flex
-        align="center"
-        p="4"
-        mx="4"
-        borderRadius="lg"
-        role="group"
-        {...rest}>
-        {icon && (
-          <Icon
-            mr="4"
-            fontSize="16"
-            as={icon}
-          />
-        )}
-        {children}
-      </Flex>
-  );
-}
 
 const NavItem = ({ icon, children, ...rest }) => {
   return (
