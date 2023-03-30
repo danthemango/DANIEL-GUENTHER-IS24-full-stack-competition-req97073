@@ -13,6 +13,7 @@ import Contact, { loader as contactLoader, action as contactAction } from './rou
 import EditContact, {action as editAction} from './routes/edit';
 import Index from './routes/index';
 import ProductsTablePage, { loader as productsLoader } from './routes/product/list';
+import '../src/index.css'
 
 import {
   createBrowserRouter,

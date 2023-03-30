@@ -1,0 +1,13 @@
+.navbar-link {
+    color:white;
+}
+
+.navbar-link:hover {
+    text-decoration: underline;
+}
+
+#detail.loading {
+    opacity: 0.25;
+    transition: opacity 200ms;
+    transition-delay: 200ms;
+}
