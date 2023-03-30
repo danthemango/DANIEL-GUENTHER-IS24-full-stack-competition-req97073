@@ -8,7 +8,8 @@ import { action as destroyAction } from './routes/destroy';
 import { ChakraProvider } from '@chakra-ui/react';
 
 import ErrorPage from './error-page';
-import ProductView, { loader as productLoader, action as productAction } from './routes/product/view';
+// import ProductView, { loader as productLoader, action as productAction } from './routes/product/view';
+import ProductEdit, { loader as productEditLoader, action as productEditAction } from './routes/product/edit';
 import Contact, { loader as contactLoader, action as contactAction } from './routes/contact';
 import EditContact, {action as editAction} from './routes/edit';
 import Index from './routes/index';
@@ -41,16 +42,18 @@ const router = createBrowserRouter([
             element: <ProductsTablePage />,
             loader: productsLoader,
           },
-          {
-            path: "product/:productId",
-            element: <ProductView />,
-            loader: productLoader,
-            action: productAction,
-          },
           // {
-          //   path: "product/:productId/edit",
-          //   element: <ProductEdit />
+          //   path: "product/:productId",
+          //   element: <ProductView />,
+          //   loader: productLoader,
+          //   action: productAction,
           // },
+          {
+            path: "product/:productId/edit",
+            element: <ProductEdit />,
+            loader: productEditLoader,
+            action: productEditAction,
+          },
           // {
           //   path: "product/:prodictId/delete",
           //   element: <ProductDelete />

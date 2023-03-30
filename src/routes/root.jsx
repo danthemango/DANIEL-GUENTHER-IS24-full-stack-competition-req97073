@@ -1,6 +1,7 @@
 import { getContacts, createContact } from '../contacts';
-import {Outlet} from 'react-router-dom';
+import { Outlet, useNavigation, ScrollRestoration } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
+import Footer from '../../components/Footer';
 
 export async function action() {
     const contact = await createContact();
@@ -17,10 +18,15 @@ export async function loader({request}) {
 import React, { ReactNode } from 'react';
 
 export default function RootPage({ children }) {
+  const navigation = useNavigation();
+
   return (
     <>
       <Navbar />
-      <Outlet />
+      <div id="detail" className={navigation.state === "loading" ? "loading" : ""}>
+        <Outlet />
+      </div>
+      <Footer />
     </>
   );
 }

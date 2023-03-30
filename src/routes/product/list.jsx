@@ -131,7 +131,7 @@ export default function ProductsTablePage() {
                     {
                         items.map(product => (
                             <Tr
-                                onClick={() => navigate(`/product/${product.productId}`)}
+                                onClick={() => navigate(`/product/${product.productId}/edit`)}
                                 key={product.productId}
                                 _hover={{
                                     bg: 'blue.400',
