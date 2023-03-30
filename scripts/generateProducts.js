@@ -1,4 +1,5 @@
-import { localStorageManager } from "@chakra-ui/react";
+// generate a list of 40 products
+// pipe to file with `node generateProducts.js > products_static.json`
 
 const firstNames = [
     "Adam", "Aayan", "Abdul", "Abu", "Aiden", "Alina", "Alysha", "Amanda", "Amber", "Aron",
@@ -32,62 +33,64 @@ const lastNames = [
         "Walter", "Walton", "Wang", "Warner", "White", "Winter", "Wolf"
 ]
 
-
-const productNames = [
-  "Aurora",
-  "Bitter Laser",
-  "Celestial Interface",
-  "Code Honors",
-  "Cold Fusion",
-  "Colossus",
-  "Comic Maroon",
-  "Discovery Of Era",
-  "Enter Coding",
-  "Gob Geeklords",
-  "Golden Bulls",
-  "Gray Panthers",
-  "Honeycomb",
-  "Impact Training",
-  "Monte Mirage",
-  "Mustangs",
-  "Prime Seven",
-  "Pure Uranium",
-  "Quicksilver",
-  "RuddyRex",
-  "Severe",
-  "Social Experiment",
-  "Software Chasers",
-  "The Network",
-  "WhiteJacks",
-  "Wonders Of Geek",
-  "Maroon Mercury",
-  "Olive Dalmatian",
-  "Rattle Rex",
-  "Corral Huron",
-  "Petunia Chicago",
-  "Magic Powders",
-  "Frisky Explorer",
-  "Rogers Diligence",
-  "Imprinted Yeast",
-  "Coffee Porridge",
-  "Kidney O'Clock",
-  "Dental Foraging Production",
-  "The Cinestatic State",
-  "Premier Conference",
+const productNameParts = [
+    "Aero", "Alloy", "Antique", "Aquamarine", "Aurora", "Baby", "Barn", "Bear", "Bitter",
+    "Blue", "Booger", "Bulls", "Celestial", "Chasers", "Chicago", "Cinestatic", "Cobalt", "Coconut",
+    "Code", "Coding", "Coffee", "Cold", "Colossus", "Comic", "Conference", "Coral", "Corn",
+    "Corral", "Cream", "Dalmatian", "Dandelion", "Dental", "Diligence", "Discovery", "Elk", "Enter",
+    "Era", "Experiment", "Explorer", "Foraging", "Frisky", "Fusion", "Geek", "Geeklords", "Gob",
+    "Golden", "Gray", "Grey", "Honeycomb", "Honors", "Huron", "Impact", "Imprinted", "Interface",
+    "Jungle", "Kidney", "Laser", "Lemon", "Lilac", "Magic", "Maroon", "Mercury", "Miller",
+    "Mirage", "Monte", "Mustangs", "Network", "Newfoundland", "O'Clock", "Olive", "Orchid", "Panthers",
+    "Petunia", "Porridge", "Powders", "Premier", "Prime", "Production", "Pure", "Quicksilver", "Rattle",
+    "Rex", "Rogers", "RuddyRex", "Salmon", "Seven", "Severe", "Social", "Software", "State",
+    "Terrier", "The", "Training", "Tree", "Uranium", "Violet", "White", "WhiteJacks", "Wonders", "Yeast"
 ]
 
-function getRandomInt(minimum, maximum) {
-  return Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
+/** returns a random integer from min to max */
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function getRandomName(arr) {
-  return arr[getRandomInt(0, arr.length)]
+/** returns random item in arr */
+function getRandomFromArr(arr) {
+  return arr[getRandomInt(0, arr.length-1)];
 }
 
-function getRandomUserName() {
-    const firstName = getRandomName(firstNames);
-    const lastName = getRandomName(lastNames);
-    return `${firstName} ${lastName}`;
+function getRandomPersonName() {
+    const firstName = getRandomFromArr(firstNames);
+    const lastName = getRandomFromArr(lastNames);
+    const name = `${firstName} ${lastName}`;
+    return name;
+}
+
+/** generates a random project name */
+function getRandomProductName() {
+    const numParts = getRandomInt(1, 3);
+    let name = '';
+    let version = 1;
+
+    if(Math.random() < .05) {
+        name += 'The '
+    } else if(Math.random() < .02) {
+        name += 'First '
+    } else {
+        while(Math.random() < 0.1) {
+            version++;
+        }
+    }
+
+    for(let i = 0; i < numParts; i++) {
+        name += getRandomFromArr(productNameParts) + ' ';
+        if(Math.random() < .01) {
+            name += 'of '
+        }
+    }
+
+    if(Math.random() < .2) {
+        name += `${version}`;
+    }
+    return name.trim();
 }
 
 // turns int into 2 digit string
@@ -96,7 +99,6 @@ function padNum(val) {
 }
 
 function getRandomDate(start, end) {
-    console.log(start)
     const thedate = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
     const dateString = `${thedate.getFullYear()}/${padNum(thedate.getMonth()+1)}/${padNum(thedate.getDate())}`;
     return dateString;
@@ -106,19 +108,30 @@ function getRandomMethodology() {
     return Math.random() > .5 ? "Agile" : "Waterfall";
 }
 
+function getRandomID() {
+    return Math.random().toString(36).substring(2, 9);
+}
+
 function getRandomProduct() {
+    // up to 5 developers
+    const numDevelopers = getRandomInt(1,5);
+    const developers = new Array(numDevelopers).fill().map(() => getRandomPersonName())
     const product = {
-        productId: "5",
-        productName: "Del Elophanto",
-        productOwnerName: getRandomUserName(),
-        developers: [],
-        scrumMasterName: getRandomUserName(),
+        productId: getRandomID(),
+        productName: getRandomProductName(),
+        productOwnerName: getRandomPersonName(),
+        developers: developers,
+        scrumMasterName: getRandomPersonName(),
         startDate: getRandomDate(new Date(2012, 0, 1), new Date()),
         methodology: getRandomMethodology(),
     }
     return product;
 }
 
-console.log(getRandomProduct())
+/** get an array of products of size num */
+function getProductArr(num) {
+    return new Array(num).fill().map(() => getRandomProduct());
+}
 
-// users.forEach(user => user.id = Math.random().toString(36).substring(2, 9));
+
+console.log(JSON.stringify(getProductArr(40), null, 4));
