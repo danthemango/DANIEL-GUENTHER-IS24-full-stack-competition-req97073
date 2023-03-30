@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import SidebarWithHeader, {
+import RootPage, {
   loader as rootLoader,
   action as rootAction
 } from './routes/root';
@@ -8,10 +8,11 @@ import { action as destroyAction } from './routes/destroy';
 import { ChakraProvider } from '@chakra-ui/react';
 
 import ErrorPage from './error-page';
+import ProductView, { loader as productLoader, action as productAction } from './routes/product/view';
 import Contact, { loader as contactLoader, action as contactAction } from './routes/contact';
 import EditContact, {action as editAction} from './routes/edit';
 import Index from './routes/index';
-import ProductsTablePage, { loader as productsLoader } from './routes/products/list';
+import ProductsTablePage, { loader as productsLoader } from './routes/product/list';
 
 import {
   createBrowserRouter,
@@ -21,7 +22,7 @@ import {
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <SidebarWithHeader />,
+    element: <RootPage />,
     errorElement: <ErrorPage />,
     loader: rootLoader,
     action: rootAction,
@@ -35,21 +36,23 @@ const router = createBrowserRouter([
             element: <Index />
           },
           {
-            path: "project",
+            path: "product",
             element: <ProductsTablePage />,
             loader: productsLoader,
           },
+          {
+            path: "product/:productId",
+            element: <ProductView />,
+            loader: productLoader,
+            action: productAction,
+          },
           // {
-          //   path: "project/:projectId",
-          //   element: <Project />
+          //   path: "product/:productId/edit",
+          //   element: <ProductEdit />
           // },
           // {
-          //   path: "project/:projectId/edit",
-          //   element: <ProjectEdit />
-          // },
-          // {
-          //   path: "project/:projectId/delete",
-          //   element: <ProjectDelete />
+          //   path: "product/:prodictId/delete",
+          //   element: <ProductDelete />
           // },
           {
             path: "contacts/:contactId",
