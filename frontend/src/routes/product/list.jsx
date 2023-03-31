@@ -14,7 +14,7 @@ import {
     getProducts
 } from './product';
 import { useState, useMemo } from 'react';
-import { useLoaderData, useNavigate } from "react-router-dom";
+import { useLoaderData, useNavigate, useNavigation } from "react-router-dom";
 
 import { ArrowUpIcon, ArrowDownIcon } from '@chakra-ui/icons'
 
@@ -107,6 +107,7 @@ export default function ProductsTablePage() {
     const {products} = useLoaderData();
     const {items, sortColumn, sortConfig} = useSortable(products);
     const navigate = useNavigate();
+    const navigation = useNavigation();
 
     const headings = [
         { label: 'Product ID', key: 'productId', sortable: true },
@@ -138,7 +139,7 @@ export default function ProductsTablePage() {
     }
 
     return (
-        <TableContainer mt="15px" className={NavigationPreloadManager.state === 'loading' ? 'loading' : ''}>
+        <TableContainer mt="15px" className={navigation.state === "loading" ? "loading" : ""}>
             <Table>
                 <Thead>
                 <Tr>
