@@ -56,10 +56,18 @@ function useSortable(items, config = null) {
     const sortedItems = useMemo(() => {
         let sortableItems = items;
         if(sortConfig != null) {
+            function compare(a,b) {
+                if(typeof a === 'number') {
+                    return a - b;
+                } else {
+                    return a.localeCompare(b);
+                }
+            }
+
             if(sortConfig.direction == 'down') {
-                sortableItems.sort((a,b) => a[sortConfig.key].localeCompare(b[sortConfig.key]));
+                sortableItems.sort((a,b) => compare(a[sortConfig.key],b[sortConfig.key]));
             } else {
-                sortableItems.sort((a,b) => b[sortConfig.key].localeCompare(a[sortConfig.key]));
+                sortableItems.sort((a,b) => compare(b[sortConfig.key],a[sortConfig.key]));
             }
         }
         return sortableItems;
