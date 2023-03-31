@@ -114,14 +114,14 @@ function getRandomID() {
 }
 
 function getRandomProduct() {
-    // up to 5 developers
+    // up to 5 Developers
     const numDevelopers = getRandomInt(1,5);
-    const developers = new Array(numDevelopers).fill().map(() => getRandomPersonName())
+    const Developers = new Array(numDevelopers).fill().map(() => getRandomPersonName())
     const product = {
         productId: getRandomID(),
         productName: getRandomProductName(),
         productOwnerName: getRandomPersonName(),
-        developers: developers,
+        Developers: Developers,
         scrumMasterName: getRandomPersonName(),
         startDate: getRandomDate(new Date(2012, 0, 1), new Date()),
         methodology: getRandomMethodology(),
