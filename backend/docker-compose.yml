@@ -2,9 +2,9 @@ version: '3.8'
 services:
   app:
     build: .
-    container_name: product-lister
+    container_name: product-manager-backend
     command: npm run dev
     volumes:
       - .:/app
     ports:
-      - "8080:3000"
+      - "3000:3000"
