@@ -10,7 +10,12 @@
 		"dev": "npx nodemon app.js"
 	},
 	"dependencies": {
-		"express": "^4.16.1"
+		"cookie-parser": "^1.4.6",
+		"cors": "^2.8.5",
+		"express": "^4.16.1",
+		"express-openapi": "^12.1.0",
+		"morgan": "^1.10.0",
+		"swagger-ui-express": "^4.6.2"
 	},
 	"devDependencies": {
 		"connect-livereload": "^0.6.1",
