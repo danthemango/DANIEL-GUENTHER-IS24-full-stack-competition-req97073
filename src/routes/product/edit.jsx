@@ -131,8 +131,22 @@ function ProductDatePicker({label, isRequired, value: initDate, onChange}) {
 
 /** returns true if the product is ready for submission */
 function isValidProduct(product) {
-  const isValid = product.developers.length == 3;
-  return isValid;
+  if(!product) {
+    return false;
+  } 
+
+  const requiredKeys = [ "productId", "productName", "productOwnerName", "developers", "scrumMasterName", "startDate", "methodology" ];
+  for(let key of requiredKeys) {
+    if(!product[key]) {
+      return false;
+    }
+  }
+
+  if(product.developers.length == 0 || product.developers.some(developer => !developer)) {
+    return false;
+  }
+
+  return true;
 }
 
 /** page to modify a product contents */
@@ -155,7 +169,8 @@ export default function ProductEditPage() {
         [key]: value,
       }))
 
-      setIsValid(isValidProduct(product));
+      const newIsValid = isValidProduct(product)
+      setIsValid(newIsValid);
     }
   }
 
@@ -183,10 +198,15 @@ export default function ProductEditPage() {
     getOnChangeForProductKey('developers')([...product.developers]);
   }
 
+  function handleSubmit(event) {
+    event.preventDefault();
+    alert('submit attempted')
+  }
+
   return (
     <Center bg="gray.200">
       <Box w={{ base: '100%', md: "1200px" }} p="40px" border="1px" borderRadius="10px" m={{base: '0', md: '20px'}} bg="white" borderColor="gray.400" >
-        <Form>
+        <Form onSubmit={handleSubmit}>
           <OnelineInput label="Product ID:" value={product.productId} isStatic />
           <OnelineInput label="Product Name:" value={product.productName} onChange={getOnChangeForProductKey('productName')} isRequired />
           <OnelineInput label="Product Owner:" value={product.productOwnerName} onChange={getOnChangeForProductKey('productOwnerName')} isRequired />
@@ -239,7 +259,7 @@ export default function ProductEditPage() {
           </FormControl>
           <Divider my="10px" />
           <HStack pt="10px">
-            <Button colorScheme="blue" isDisabled={!isValid} onClick={() => alert('eeeeeeeeeeeeeee')}>Save</Button>
+            <Button colorScheme="blue" type="Submit" isDisabled={!isValidProduct(product)}>Save</Button>
             <Button onClick={() => navigate('/product')}>Cancel</Button>
           </HStack>
         </Form>
