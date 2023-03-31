@@ -6,6 +6,7 @@ import {
     Th,
     Td,
     TableContainer,
+    Input
 } from '@chakra-ui/react';
 
 import {
@@ -108,10 +109,48 @@ export default function ProductsTablePage() {
         { label: 'Methodology', key: 'methodology', sortable: true },
     ];
 
+    // search filters for dev and scrum master names
+    const [devFilter, setDevFilter] = useState('');
+    const [scrumFilter, setScrumFilter] = useState('');
+
+    // returns true if the product has been searched for
+    function isHidden(product) {
+        // returns true if 'b' is a are case-insensitive substring of 'a'
+        function isSubStr(a,b) {
+            return a.toLowerCase().trim().includes(b.toLowerCase().trim());
+        }
+        
+        // filter on dev AND scrum if searching for them
+        const devSearching = !!devFilter;
+        const scrumSearching = !!scrumFilter;
+        const devMatch = product.developers.some(developer => isSubStr(developer, devFilter))
+        const scrumMatch = isSubStr(product.scrumMasterName, scrumFilter);
+        return (devSearching && !devMatch) || (scrumSearching && !scrumMatch);
+    }
+
     return (
         <TableContainer mt="15px" className={NavigationPreloadManager.state === 'loading' ? 'loading' : ''}>
             <Table>
                 <Thead>
+                <Tr>
+                    {headings.map((heading, idx) => {
+                        if(heading.key == 'Developers') {
+                            return (
+                                <Th key={idx}>
+                                    <Input placeholder="Developer search" value={devFilter} onChange={e => setDevFilter(e.target.value)}></Input>
+                                </Th>
+                            )
+                        } else if(heading.key == 'scrumMasterName') {
+                            return (
+                                <Th key={idx}>
+                                    <Input placeholder="Scrum Master Search" value={scrumFilter} onChange={e => setScrumFilter(e.target.value)}></Input>
+                                </Th>
+                            )
+                        } else {
+                            return <Th key={idx}></Th>
+                        }
+                    })}
+                </Tr>
                 <Tr>
                     {headings.map(heading => {
                         return (
@@ -129,27 +168,31 @@ export default function ProductsTablePage() {
                 </Thead>
                 <Tbody>
                     {
-                        items.map(product => (
-                            <Tr
-                                onClick={() => navigate(`/product/${product.productId}/edit`)}
-                                key={product.productId}
-                                _hover={{
-                                    bg: 'blue.400',
-                                    color: 'white',
-                                }}
-                                cursor="pointer"
-                            >
-                                <Td>{product.productId}</Td>
-                                <Td>{product.productName}</Td>
-                                <Td>{product.productOwnerName}</Td>
-                                <Td>
-                                    <DeveloperList developers={product.developers} />
-                                </Td>
-                                <Td>{product.scrumMasterName}</Td>
-                                <Td>{product.startDate}</Td>
-                                <Td>{product.methodology}</Td>
-                            </Tr>
-                        ))
+                        items.map(product => {
+                            if (!isHidden(product)) {
+                                return (
+                                    <Tr
+                                        onClick={() => navigate(`/product/${product.productId}/edit`)}
+                                        key={product.productId}
+                                        _hover={{
+                                            bg: 'blue.400',
+                                            color: 'white',
+                                        }}
+                                        cursor="pointer"
+                                    >
+                                        <Td>{product.productId}</Td>
+                                        <Td>{product.productName}</Td>
+                                        <Td>{product.productOwnerName}</Td>
+                                        <Td>
+                                            <DeveloperList developers={product.developers} />
+                                        </Td>
+                                        <Td>{product.scrumMasterName}</Td>
+                                        <Td>{product.startDate}</Td>
+                                        <Td>{product.methodology}</Td>
+                                    </Tr>
+                                )
+                            }
+                        })
                     }
                 </Tbody>
             </Table>
