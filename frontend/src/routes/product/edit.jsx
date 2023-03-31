@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { NavLink, Form, useLoaderData, useFetcher, useNavigate } from "react-router-dom";
-import { getProduct, updateProduct } from "./product";
+import { NavLink, Form, useLoaderData, useFetcher, useNavigate, useLocation } from "react-router-dom";
+import { getProduct, updateProduct, createProduct } from "./product";
 import {
   Divider,
   Center,
@@ -32,18 +32,15 @@ import {
   FormErrorMessage
 } from '@chakra-ui/react';
 import {CloseIcon} from '@chakra-ui/icons';
-import { BsGithub, BsLinkedin, BsPerson, BsTwitter } from 'react-icons/bs';
-import { MdEmail, MdOutlineEmail } from 'react-icons/md';
 import DatePicker from 'react-date-picker';
+import {deleteProduct} from './product';
 
-export async function action({ request, params }) {
-  let formData = await request.formData();
-  return updateProduct(params.productId, {
-    favorite: formData.get("favorite") == "true",
-  });
-}
+// export async function action({ request, params }) {
+//     await updateProduct(params.productId);
+//     return redirect('/product')
+// }
 
-export async function loader({ params }) {
+export async function editLoader({ params }) {
   const product = await getProduct(params.productId);
   if (!product) {
     throw new Response("", {
@@ -51,6 +48,19 @@ export async function loader({ params }) {
       statusText: "Not Found",
     });
   }
+  return { product };
+}
+
+// returns a brand new product object
+export async function createLoader({ params }) {
+  const product = {
+    "productName": "",
+    "productOwnerName": "",
+    "Developers": [ '' ],
+    "scrumMasterName": "",
+    "startDate": "",
+    "methodology": ""
+  };
   return { product };
 }
 
@@ -135,7 +145,7 @@ function isValidProduct(product) {
     return false;
   } 
 
-  const requiredKeys = [ "productId", "productName", "productOwnerName", "Developers", "scrumMasterName", "startDate", "methodology" ];
+  const requiredKeys = ["productName", "productOwnerName", "Developers", "scrumMasterName", "startDate", "methodology" ];
   for(let key of requiredKeys) {
     if(!product[key]) {
       return false;
@@ -154,8 +164,7 @@ export default function ProductEditPage() {
   const navigate = useNavigate();
   const { product: initProduct } = useLoaderData();
   const [ product, setProduct] = useState(initProduct);
-  const [isValid, setIsValid] = useState(isValidProduct(product));
-  const [submitAttempted, setSubmitAttempted] = useState(false);
+  // const [submitAttempted, setSubmitAttempted] = useState(false);
 
   /** 
    * returns the onProductChange function for a given key of product
@@ -168,9 +177,6 @@ export default function ProductEditPage() {
         ...prevProduct,
         [key]: value,
       }))
-
-      const newIsValid = isValidProduct(product)
-      setIsValid(newIsValid);
     }
   }
 
@@ -198,16 +204,48 @@ export default function ProductEditPage() {
     getOnChangeForProductKey('Developers')([...product.Developers]);
   }
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    alert('submit attempted')
+  // send delete request
+  async function handleDelete() {
+    if(!confirm('please confirm you want to delete this product')) {
+      return;
+    }
+
+    try {
+      await deleteProduct(product.productId);
+      return navigate('/product');
+    } catch (e) {
+      console.error(e);
+      alert('Something went wrong.');
+    }
+  }
+
+  // save product
+  async function handleSave() {
+    try {
+      await updateProduct(product.productId, product);
+      return navigate('/product');
+    } catch (e) {
+      console.error(e);
+      alert('Something went wrong.');
+    }
+  }
+
+  // create new product
+  async function handleCreate() {
+    try {
+      await createProduct(product);
+      return navigate('/product');
+    } catch (e) {
+      console.error(e);
+      alert('Something went wrong.');
+    }
   }
 
   return (
     <Center bg="gray.200">
       <Box w={{ base: '100%', md: "1200px" }} p="40px" border="1px" borderRadius="10px" m={{base: '0', md: '20px'}} bg="white" borderColor="gray.400" >
-        <Form onSubmit={handleSubmit}>
-          <OnelineInput label="Product ID:" value={product.productId} isStatic />
+        <Form>
+          {product.productId && <OnelineInput label="Product ID:" value={product.productId} isStatic />}
           <OnelineInput label="Product Name:" value={product.productName} onChange={getOnChangeForProductKey('productName')} isRequired />
           <OnelineInput label="Product Owner:" value={product.productOwnerName} onChange={getOnChangeForProductKey('productOwnerName')} isRequired />
 
@@ -222,9 +260,11 @@ export default function ProductEditPage() {
                       <Flex>
                         <Input w="50" mb="5px" type="text" value={developer} onChange={e => getOnDeveloperChangeForIdx(idx)(e.target.value)}></Input>
                         <InputRightAddon p="0">
-                          <Button colorScheme="red" size='sm' h="100%" onClick={() => removeDeveloper(idx)}>
-                            <CloseIcon />
-                          </Button>
+                          <Tooltip label="At least 1 developer" isDisabled={product.Developers.length > 1}>
+                            <Button colorScheme="red" size='sm' h="100%" onClick={() => removeDeveloper(idx)} isDisabled={product.Developers.length <= 1}>
+                              <CloseIcon />
+                            </Button>
+                          </Tooltip>
                         </InputRightAddon>
                       </Flex>
                       <FormErrorMessage w="100%">field required</FormErrorMessage>
@@ -259,8 +299,10 @@ export default function ProductEditPage() {
           </FormControl>
           <Divider my="10px" />
           <HStack pt="10px">
-            <Button colorScheme="blue" type="Submit" isDisabled={!isValidProduct(product)}>Save</Button>
+            <Button colorScheme="blue" isDisabled={!isValidProduct(product)} onClick={product.productId ? handleSave : handleCreate}>Save</Button>
             <Button onClick={() => navigate('/product')}>Cancel</Button>
+            <Spacer />
+            <Button colorScheme="red" onClick={handleDelete}>Delete</Button>
           </HStack>
         </Form>
       </Box>

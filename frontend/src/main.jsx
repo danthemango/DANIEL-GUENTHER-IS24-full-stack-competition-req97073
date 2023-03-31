@@ -4,14 +4,11 @@ import RootPage, {
   loader as rootLoader,
   action as rootAction
 } from './routes/root';
-import { action as destroyAction } from './routes/destroy';
 import { ChakraProvider } from '@chakra-ui/react';
 
 import ErrorPage from './error-page';
 // import ProductView, { loader as productLoader, action as productAction } from './routes/product/view';
-import ProductEdit, { loader as productEditLoader, action as productEditAction } from './routes/product/edit';
-import Contact, { loader as contactLoader, action as contactAction } from './routes/contact';
-import EditContact, {action as editAction} from './routes/edit';
+import ProductEdit, { editLoader as productEditLoader, createLoader as productCreateLoader} from './routes/product/edit';
 import Index from './routes/index';
 import ProductsTablePage, { loader as productsLoader } from './routes/product/list';
 import '../src/index.css'
@@ -42,38 +39,15 @@ const router = createBrowserRouter([
             element: <ProductsTablePage />,
             loader: productsLoader,
           },
-          // {
-          //   path: "product/:productId",
-          //   element: <ProductView />,
-          //   loader: productLoader,
-          //   action: productAction,
-          // },
           {
-            path: "product/:productId/edit",
+            path: "product/create",
+            element: <ProductEdit />,
+            loader: productCreateLoader,
+          },
+          {
+            path: "product/edit/:productId",
             element: <ProductEdit />,
             loader: productEditLoader,
-            action: productEditAction,
-          },
-          // {
-          //   path: "product/:prodictId/delete",
-          //   element: <ProductDelete />
-          // },
-          {
-            path: "contacts/:contactId",
-            element: <Contact />,
-            loader: contactLoader,
-            action: contactAction,
-          },
-          {
-            path: "contacts/:contactId/edit",
-            element: <EditContact />,
-            loader: contactLoader,
-            action: editAction,
-          },
-          {
-            path: "contacts/:contactId/destroy",
-            action: destroyAction,
-            errorElement: <div>Oops! There was an error.</div>,
           }
         ]
       }]

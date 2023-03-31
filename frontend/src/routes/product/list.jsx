@@ -6,7 +6,8 @@ import {
     Th,
     Td,
     TableContainer,
-    Input
+    Input,
+    Button
 } from '@chakra-ui/react';
 
 import {
@@ -21,7 +22,6 @@ export async function loader({params}) {
     const products = await getProducts();
     return { products };
 }
-
 
 /**
  * a simple arrow if direction is 'up' or 'down'
@@ -134,7 +134,13 @@ export default function ProductsTablePage() {
                 <Thead>
                 <Tr>
                     {headings.map((heading, idx) => {
-                        if(heading.key == 'Developers') {
+                        if(heading.key == 'productId') {
+                            return (
+                                <Th key={idx}>
+                                    <Button colorScheme="blue" onClick={() => navigate(`/product/create`)}>+ Create New Product</Button>
+                                </Th>
+                            )
+                        } else if(heading.key == 'Developers') {
                             return (
                                 <Th key={idx}>
                                     <Input placeholder="Developer search" value={devFilter} onChange={e => setDevFilter(e.target.value)}></Input>
@@ -172,7 +178,7 @@ export default function ProductsTablePage() {
                             if (!isHidden(product)) {
                                 return (
                                     <Tr
-                                        onClick={() => navigate(`/product/${product.productId}/edit`)}
+                                        onClick={() => navigate(`/product/edit/${product.productId}`)}
                                         key={product.productId}
                                         _hover={{
                                             bg: 'blue.400',

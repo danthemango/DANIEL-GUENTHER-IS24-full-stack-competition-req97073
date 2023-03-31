@@ -198,7 +198,7 @@ function getNewProductId() {
 	// first few billion entries
 	let productId;
 	do {
-		productId = Math.floor(Math.random() * (Number.MAX_SAFE_INTEGER - 10 + 1));
+		productId = 1 + Math.floor(Math.random() * (Number.MAX_SAFE_INTEGER - 10));
 	} while(products[productId]);
 	return productId;
 }
@@ -214,7 +214,6 @@ router.post("/", function (req, res) {
 	const product = req.body;
 	product.productId = productId;
 	products[productId] = product;
-	console.log(product)
 
 	res.status(201).json(product);
 });
