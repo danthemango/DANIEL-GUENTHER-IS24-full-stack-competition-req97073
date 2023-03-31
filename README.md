@@ -27,5 +27,9 @@ and the backend has been written in nodeJS with expressJS.
 Local Development Notes
 -----------------------
 (not part of submission)
-To debug the frontend, cd into the directory and run `npm install`, then `npm run dev` and it should be vieweable on http://127.0.0.1:5173/
 
+To debug the frontend, run:
+- `cd frontend`
+- `npm install`
+- `npm run dev`
+- open a browser window to http://127.0.0.1:5173/
