@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 
 
 app.use("/", express.static(path.join(__dirname, "dist")));
-app.get("/product/*", (_req, res) => {
+app.get("/product*", (_req, res) => {
   res.sendFile(path.join(__dirname, "dist", "index.html"));
 })
 app.use("/api/product", require("./routes/product"));
