@@ -22,15 +22,12 @@ Otherwise just run:
 - `docker build -t product-manager .`
 - `docker run -p 3000:3000 product-manager`
 
-and the web api documentation available at http://localhost:3000/api/api-docs
+run a request to http://localhost:3000/api/healthcheck which should return a status of 200
 
-Other Notes
+and the web api documentation is available at http://localhost:3000/api/api-docs
+
+Development
 -----------
-This application has been split into two parts, with a frontend and backend contained
-in the 'frontend' and 'backend' directories respectively.
-The frontend has been implemented with React using the Chakra UI framework,
-and the backend has been written in nodeJS with expressJS.
-
 if you want to try debugging it, run it locally with:
 - `cd frontend`
 - `npm install`
@@ -43,3 +40,9 @@ Similar to the backend:
 - `npm start`
 - and run requests to https://127.0.0.1:3000/
 - (in postman or what have you)
+
+This application has been split into two parts, with a frontend and backend contained
+in the 'frontend' and 'backend' directories respectively.
+The frontend has been implemented with React using the Chakra UI framework,
+and the backend has been written in nodeJS with expressJS.
+

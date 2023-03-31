@@ -21,6 +21,7 @@ app.get("/product/*", (_req, res) => {
 })
 app.use("/api/product", require("./routes/product"));
 
+
 const options = {
   definition: {
     openapi: "3.0.0",
@@ -46,6 +47,8 @@ const options = {
   },
   apis: ["./routes/*.js"],
 };
+
+app.use("/api/healthcheck", require("./routes/healthcheck"));
 
 const specs = swaggerJsdoc(options);
 app.use(
