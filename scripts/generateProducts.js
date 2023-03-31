@@ -98,6 +98,7 @@ function padNum(val) {
     return val.toString().padStart(2, '0');
 }
 
+/** returns a date that is within the start and end date objects */
 function getRandomDate(start, end) {
     const thedate = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
     const dateString = `${thedate.getFullYear()}/${padNum(thedate.getMonth()+1)}/${padNum(thedate.getDate())}`;
