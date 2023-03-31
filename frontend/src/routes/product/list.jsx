@@ -36,13 +36,13 @@ function SortIcon({direction}) {
     }
 }
 
-/** unsorted list to display developers */
-function DeveloperList({developers}) {
-    if(!developers || !developers.length) return <ul></ul>;
+/** unsorted list to display Developers */
+function DeveloperList({Developers}) {
+    if(!Developers || !Developers.length) return <ul></ul>;
 
     return (
         <ul>
-            {developers.map((name, idx) => (
+            {Developers.map((name, idx) => (
                 <li key={idx}>{name}</li>
             ))}
         </ul>
@@ -123,7 +123,7 @@ export default function ProductsTablePage() {
         // filter on dev AND scrum if searching for them
         const devSearching = !!devFilter;
         const scrumSearching = !!scrumFilter;
-        const devMatch = product.developers.some(developer => isSubStr(developer, devFilter))
+        const devMatch = product.Developers.some(developer => isSubStr(developer, devFilter))
         const scrumMatch = isSubStr(product.scrumMasterName, scrumFilter);
         return (devSearching && !devMatch) || (scrumSearching && !scrumMatch);
     }
@@ -184,7 +184,7 @@ export default function ProductsTablePage() {
                                         <Td>{product.productName}</Td>
                                         <Td>{product.productOwnerName}</Td>
                                         <Td>
-                                            <DeveloperList developers={product.developers} />
+                                            <DeveloperList Developers={product.Developers} />
                                         </Td>
                                         <Td>{product.scrumMasterName}</Td>
                                         <Td>{product.startDate}</Td>

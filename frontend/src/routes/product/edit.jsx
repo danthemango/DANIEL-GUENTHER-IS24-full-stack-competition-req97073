@@ -135,14 +135,14 @@ function isValidProduct(product) {
     return false;
   } 
 
-  const requiredKeys = [ "productId", "productName", "productOwnerName", "developers", "scrumMasterName", "startDate", "methodology" ];
+  const requiredKeys = [ "productId", "productName", "productOwnerName", "Developers", "scrumMasterName", "startDate", "methodology" ];
   for(let key of requiredKeys) {
     if(!product[key]) {
       return false;
     }
   }
 
-  if(product.developers.length == 0 || product.developers.some(developer => !developer)) {
+  if(product.Developers.length == 0 || product.Developers.some(developer => !developer)) {
     return false;
   }
 
@@ -177,25 +177,25 @@ export default function ProductEditPage() {
   /** return onChange function for a given developer index */
   function getOnDeveloperChangeForIdx(idx) {
     return function onDeveloperChange(newDeveloper) {
-      const newDevelopers = product.developers;
+      const newDevelopers = product.Developers;
       newDevelopers[idx] = newDeveloper;
-      getOnChangeForProductKey('developers')(newDevelopers);
+      getOnChangeForProductKey('Developers')(newDevelopers);
     }
   }
 
   /** removes a developer at a given index */
   function removeDeveloper(idx) {
-    if(!product.developers || !product.developers.length || product.developers.length <= idx) {
+    if(!product.Developers || !product.Developers.length || product.Developers.length <= idx) {
       alert(`Error: could not remove developer ${idx}`);
       return;
     }
-    product.developers.splice(idx, 1);
-    getOnChangeForProductKey('developers')([...product.developers]);
+    product.Developers.splice(idx, 1);
+    getOnChangeForProductKey('Developers')([...product.Developers]);
   }
 
   function addDeveloper() {
-    product.developers.push('');
-    getOnChangeForProductKey('developers')([...product.developers]);
+    product.Developers.push('');
+    getOnChangeForProductKey('Developers')([...product.Developers]);
   }
 
   function handleSubmit(event) {
@@ -213,9 +213,9 @@ export default function ProductEditPage() {
 
           <FormControl isRequired mb="20px">
             <FormLabel>Developers:</FormLabel>
-            <FormHelperText>(Maximum of 5 developers)</FormHelperText>
+            <FormHelperText>(Maximum of 5 Developers)</FormHelperText>
             <VStack justify='left'>
-              {product.developers.map((developer, idx) => (
+              {product.Developers.map((developer, idx) => (
                 <FormControl key={idx} isRequired isInvalid={!developer}>
                   <InputGroup size='md'>
                     <VStack>
@@ -233,8 +233,8 @@ export default function ProductEditPage() {
                 </FormControl>
               ))}
               <Box w="100%">
-                <Tooltip label="Max 5 developers" isDisabled={product.developers.length < 5}>
-                  <Button colorScheme="blue" isDisabled={product.developers.length >= 5} onClick={addDeveloper}>+ Add Developer</Button>
+                <Tooltip label="Max 5 Developers" isDisabled={product.Developers.length < 5}>
+                  <Button colorScheme="blue" isDisabled={product.Developers.length >= 5} onClick={addDeveloper}>+ Add Developer</Button>
                 </Tooltip>
               </Box>
             </VStack>
