@@ -13,22 +13,25 @@ The requirement, as specified on that page is to submit:
 * Basic Documentation on how to effortlessly run your solution components on a local development machine
     * This includes basic npm or docker commands required to have your solution stood up on **any** workstation
 
-
 Deployment notes
 -----------------
+I have provided a docker-compose.yml file for your convenience, if you have it installed
+the app should be ready to go with `docker-compose up`.
+
+Otherwise just run:
+- `docker build -t product-manager .`
+- `docker run -p 3000:3000 product-manager`
+
+and the web api documentation available at http://localhost:3000/api/api-docs
+
+Other Notes
+-----------
 This application has been split into two parts, with a frontend and backend contained
 in the 'frontend' and 'backend' directories respectively.
 The frontend has been implemented with React using the Chakra UI framework,
 and the backend has been written in nodeJS with expressJS.
 
-(Docker deployment instructions incoming)
-
-
-Local Development Notes
------------------------
-(not part of submission)
-
-To run the frontend in debugging mode, run:
+if you want to try debugging it, run it locally with:
 - `cd frontend`
 - `npm install`
 - `npm run dev`
@@ -38,5 +41,5 @@ Similar to the backend:
 - `cd backend`
 - `npm install`
 - `npm start`
-- run requests to https://127.0.0.1:3000/
+- and run requests to https://127.0.0.1:3000/
 - (in postman or what have you)
