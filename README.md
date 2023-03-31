@@ -28,8 +28,15 @@ Local Development Notes
 -----------------------
 (not part of submission)
 
-To debug the frontend, run:
+To run the frontend in debugging mode, run:
 - `cd frontend`
 - `npm install`
 - `npm run dev`
 - open a browser window to http://127.0.0.1:5173/
+
+Similar to the backend:
+- `cd backend`
+- `npm install`
+- `npm start`
+- run requests to https://127.0.0.1:3000/
+- (in postman or what have you)

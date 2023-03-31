@@ -95,6 +95,7 @@ function ThSortable({children, isSorted, onClick, direction, isSortable}) {
 }
 
 export default function ProductsTablePage() {
+    
     const {products} = useLoaderData();
     const {items, sortColumn, sortConfig} = useSortable(products);
     const navigate = useNavigate();

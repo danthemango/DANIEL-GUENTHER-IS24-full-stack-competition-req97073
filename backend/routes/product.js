@@ -78,20 +78,20 @@
  *               $ref: '#/components/schemas/Product'
  *       500:
  *         description: Some server error
- * /api/product/{id}:
+ * /api/product/{productId}:
  *   get:
- *     summary: Get the product by id
+ *     summary: Get the product by productId
  *     tags: [Product]
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: productId
  *         schema:
  *           type: number
  *         required: true
- *         description: The product id
+ *         description: The product productId
  *     responses:
  *       200:
- *         description: The product response by id
+ *         description: The product response by productId
  *         contens:
  *           application/json:
  *             schema:
@@ -99,15 +99,15 @@
  *       404:
  *         description: The product was not found
  *   put:
- *    summary: Update the product by the id
+ *    summary: Update the product by the productId
  *    tags: [Product]
  *    parameters:
  *      - in: path
- *        name: id
+ *        name: productId
  *        schema:
  *          type: number
  *        required: true
- *        description: The product id
+ *        description: The product productId
  *    requestBody:
  *      required: true
  *      content:
@@ -126,15 +126,15 @@
  *      500:
  *        description: Some error happened
  *   delete:
- *     summary: Remove the product by id
+ *     summary: Remove the product by productId
  *     tags: [Product]
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: productId
  *         schema:
  *           type: number
  *         required: true
- *         description: The product id
+ *         description: The product productId
  *
  *     responses:
  *       200:
