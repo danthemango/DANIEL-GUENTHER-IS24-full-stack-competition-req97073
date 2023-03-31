@@ -2,7 +2,8 @@ const express = require("express"),
   bodyParser = require("body-parser"),
   swaggerJsdoc = require("swagger-jsdoc"),
   swaggerUi = require("swagger-ui-express"),
-  cors = require("cors");
+  cors = require("cors"),
+  path = require("path");
 
 const app = express();
 app.use(cors());
@@ -13,7 +14,13 @@ app.use(
 );
 app.use(bodyParser.json());
 
+
 app.use("/api/product", require("./routes/product"));
+
+app.use("/", express.static(path.join(__dirname, "dist")));
+app.get("/*", (_req, res) => {
+  res.sendFile(path.join(__dirname, "dist", "index.html"));
+})
 
 const options = {
   definition: {
