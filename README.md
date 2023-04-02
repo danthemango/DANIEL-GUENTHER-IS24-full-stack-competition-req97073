@@ -16,7 +16,9 @@ The requirement, as specified on that page is to submit:
 Deployment notes
 -----------------
 I have provided a docker-compose.yml file for your convenience, if you have it installed
-the app should be ready to go with `docker-compose up`.
+the app should be ready to go with:
+- `docker-compose build`
+- `docker-compose up`
 
 Otherwise just run:
 - `docker build -t product-manager .`
