@@ -168,8 +168,7 @@ export default function ProductEditPage() {
 
   /** 
    * returns the onProductChange function for a given key of product
-   * which updates the product for a given key and sets 'isValid' if the form
-   * has been validly filled out
+   * which updates the product for a given key
   */
   function getOnChangeForProductKey(key) {
     return function onProductChange(value) {
