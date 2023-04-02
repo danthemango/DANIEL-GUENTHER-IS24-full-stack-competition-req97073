@@ -6,10 +6,10 @@ const router = express.Router();
  * @swagger
  * tags:
  *   name: Health Check
- *   description: The Product Manager API
+ *   description: Returns the health status of the API
  * /api/healthcheck:
  *   get:
- *     summary: returns the status of the API
+ *     summary: A status of 200 indicates the API is healthy
  *     tags: [ Health Check]
  *     responses:
  *       200:
